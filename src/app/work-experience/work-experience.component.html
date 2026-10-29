@@ -1,9 +1,40 @@
-<ul *ngFor="let job of workExperience;">
-    <li>
-        {{ job.startDate }} - {{ job.endDate }} <i>{{job.location}}</i><br>
-        <b>{{ job.position }}</b> <br>
-        {{ job.company }} <br>
-        Logros: <br>
-        {{ job.accomplishments }} <br>
-    </li>
-</ul>
+<section class="experience-section">
+  <h2 class="section-title">Experiencia profesional</h2>
+
+  <div
+    class="experience-list"
+    *ngIf="workExperience.length > 0; else noExperience"
+  >
+    <article
+      class="experience-card"
+      *ngFor="let job of workExperience"
+    >
+      <div class="experience-meta">
+        <span class="experience-dates">
+          {{ job.startDate || 'Fecha no especificada' }}
+          —
+          {{ job.endDate || 'Actualidad' }}
+        </span>
+
+        <span class="experience-location" *ngIf="job.location">
+          {{ job.location }}
+        </span>
+      </div>
+
+      <h3 class="job-position">{{ job.position }}</h3>
+
+      <p class="job-company">{{ job.company }}</p>
+
+      <div class="job-accomplishments" *ngIf="job.accomplishments">
+        <h4>Logros y proyectos</h4>
+        <p>{{ job.accomplishments }}</p>
+      </div>
+    </article>
+  </div>
+
+  <ng-template #noExperience>
+    <p class="empty-message">
+      No hay experiencias profesionales registradas todavía.
+    </p>
+  </ng-template>
+</section>

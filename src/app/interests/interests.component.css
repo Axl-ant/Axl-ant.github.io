@@ -1,0 +1,97 @@
+
+.interests-section {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 1rem 0;
+  box-sizing: border-box;
+  color: #1e293b;
+}
+
+.section-heading {
+  margin-bottom: 1.5rem;
+}
+
+.section-label {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.section-heading h2 {
+  margin: 0.4rem 0;
+  color: #0f172a;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.interests-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 220px), 1fr)
+  );
+  gap: 1rem;
+}
+
+.interest-card {
+  min-width: 0;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px rgb(15 23 42 / 4%);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.interest-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgb(15 23 42 / 8%);
+}
+
+.interest-card h3 {
+  margin: 0 0 0.65rem;
+  color: #0f172a;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.interest-card p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.65;
+  font-size: 0.925rem;
+  overflow-wrap: anywhere;
+}
+
+.empty-message {
+  padding: 1.25rem;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interest-card {
+    transition: none;
+  }
+
+  .interest-card:hover {
+    transform: none;
+  }
+}

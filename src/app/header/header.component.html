@@ -1,15 +1,42 @@
-<tr>
-    <td>
-        {{header.name}} <br>
-        {{header.goalLife}}
-    </td>
-    <td>
-        <img src="{{header.photoUrl}}" width='200' height='200'>
-    </td>
-    <td>
-        {{header.email}}<br>
-        {{header.phoneNumber}}<br>
-        {{header.location}}<br>
-        {{header.socialNetwork}}
-    </td>
-</tr>
+<section class="cv-header" aria-label="Perfil profesional">
+  <div class="cv-header__identity">
+    <p class="cv-header__eyebrow">Currículum vitae</p>
+    <h1>{{ header.name }}</h1>
+
+    @if (header.profesionalTitle) {
+      <h2>{{ header.profesionalTitle }}</h2>
+    }
+
+    @if (header.goalLife) {
+      <p class="cv-header__goal">{{ header.goalLife }}</p>
+    }
+  </div>
+
+  @if (header.photoUrl) {
+    <div class="cv-header__photo-wrap">
+      <img class="cv-header__photo" [src]="header.photoUrl" [alt]="'Fotografía de ' + (header.name || 'perfil')">
+    </div>
+  }
+
+  <div class="cv-header__contact">
+    @if (header.email) {
+      <a [href]="'mailto:' + header.email">{{ header.email }}</a>
+    }
+    @if (header.phoneNumber) {
+      <a [href]="'tel:' + header.phoneNumber">{{ header.phoneNumber }}</a>
+    }
+    @if (header.location) {
+      <span>{{ header.location }}</span>
+    }
+    @if (header.socialNetwork) {
+      <span>{{ header.socialNetwork }}</span>
+    }
+  </div>
+
+  @if (header.aboutMe) {
+    <div class="cv-header__about">
+      <h3>Sobre mí</h3>
+      <p>{{ header.aboutMe }}</p>
+    </div>
+  }
+</section>

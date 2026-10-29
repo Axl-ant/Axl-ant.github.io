@@ -1,2 +1,36 @@
-<p>education works!</p>
-<p> {{educationService.accesoEducation}} </p>
+<section class="education-section">
+  <div class="section-heading">
+    <span class="section-label">MI FORMACIÓN</span>
+    <h2>Educación</h2>
+    <p>Mi recorrido académico y aprendizaje profesional.</p>
+  </div>
+
+  <div class="education-list">
+    <article
+      class="education-card"
+      *ngFor="let education of educationList"
+    >
+      <div class="education-icon">
+        <span>🎓</span>
+      </div>
+
+      <div class="education-content">
+        <h3>{{ education.degree }}</h3>
+        <h4>{{ education.institution }}</h4>
+
+        <p class="education-date">
+          {{ education.startDate || 'Inicio no especificado' }} —
+          {{ education.endDate || 'Actualidad' }}
+        </p>
+
+        <p class="education-description" *ngIf="education.description">
+          {{ education.description }}
+        </p>
+      </div>
+    </article>
+
+    <p class="empty-message" *ngIf="educationList.length === 0">
+      Mi formación académica aparecerá aquí próximamente.
+    </p>
+  </div>
+</section>

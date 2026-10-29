@@ -1,2 +1,24 @@
-<p>languages works!</p>
-<p> {{languagesService.accesoLanguages}} </p>
+<section class="languages-section">
+  <div class="section-heading">
+    <span class="section-label">COMUNICACIÓN</span>
+    <h2>Idiomas</h2>
+    <p>Idiomas que manejo y mi nivel de conocimiento.</p>
+  </div>
+
+  <div class="languages-grid" *ngIf="languagesList.length > 0">
+    <article class="language-card" *ngFor="let language of languagesList">
+      <div class="language-card-header">
+        <h3>{{ language.name }}</h3>
+        <span class="language-level">{{ language.level }}</span>
+      </div>
+
+      <p *ngIf="language.description">
+        {{ language.description }}
+      </p>
+    </article>
+  </div>
+
+  <p class="empty-message" *ngIf="languagesList.length === 0">
+    No hay idiomas registrados todavía.
+  </p>
+</section>

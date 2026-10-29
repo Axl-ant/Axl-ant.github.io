@@ -1,0 +1,129 @@
+:host {
+  display: block;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1f2937;
+}
+
+.cv-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.25rem 2rem;
+  align-items: center;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  background: #ffffff;
+  border-bottom: 4px solid #2563eb;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.cv-header__identity,
+.cv-header__contact,
+.cv-header__about {
+  min-width: 0;
+}
+
+.cv-header__eyebrow {
+  margin: 0 0 0.5rem;
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cv-header h1 {
+  margin: 0;
+  color: #111827;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.cv-header h2 {
+  margin: 0.5rem 0 0;
+  color: #374151;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  font-weight: 600;
+}
+
+.cv-header__goal {
+  margin: 0.75rem 0 0;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.cv-header__photo-wrap {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.cv-header__photo {
+  display: block;
+  width: 144px;
+  height: 144px;
+  object-fit: cover;
+  border: 4px solid #eff6ff;
+  border-radius: 50%;
+}
+
+.cv-header__contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  grid-column: 1 / -1;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  color: #4b5563;
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
+.cv-header__contact a {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.cv-header__contact a:hover {
+  text-decoration: underline;
+}
+
+.cv-header__about {
+  grid-column: 1 / -1;
+}
+
+.cv-header__about h3 {
+  margin: 0 0 0.4rem;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.cv-header__about p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+@media (max-width: 560px) {
+  .cv-header {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .cv-header__photo-wrap {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+  }
+
+  .cv-header__photo {
+    width: 112px;
+    height: 112px;
+  }
+
+  .cv-header__contact,
+  .cv-header__about {
+    grid-column: 1;
+  }
+}

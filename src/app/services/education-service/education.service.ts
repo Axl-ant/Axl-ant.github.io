@@ -1,11 +1,20 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { Education } from '../../models/education/education.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EducationService {
+  private dbPath = '/education';
 
-  accesoEducation = "Education service running...";
+  educationRef: AngularFirestoreCollection<Education>;
 
-  constructor() { }
+  constructor(private db: AngularFirestore) {
+    this.educationRef = this.db.collection<Education>(this.dbPath);
+  }
+
+  getEducation(): AngularFirestoreCollection<Education> {
+    return this.educationRef;
+  }
 }
