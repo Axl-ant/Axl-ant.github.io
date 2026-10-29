@@ -65,8 +65,24 @@ jobs:
             http_base \
             "$DOCKER_USER/mycv:${GITHUB_SHA}"
 
+          docker tag \
+            "$DOCKER_USER/mycv:${GITHUB_SHA}" \
+            "$DOCKER_USER/mycv:latest"
+
       - name: Subir imagen a Docker Hub
         if: github.event_name == 'push'
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        run: docker push "$DOCKER_USER/mycv:${GITHUB_SHA}"
+        run: |
+          docker push "$DOCKER_USER/mycv:${GITHUB_SHA}"
+          docker push "$DOCKER_USER/mycv:latest"
+
+      - name: Desplegar en Render
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          test -n "$RENDER_DEPLOY_HOOK_URL"
+          curl --fail --silent --show-error \
+            --request POST \
+            "$RENDER_DEPLOY_HOOK_URL"
