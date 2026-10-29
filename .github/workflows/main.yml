@@ -1,58 +1,72 @@
+
 name: Angular_DockerImage
 
-
-on: 
+on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
-    
 jobs:
-  angular_deploy :
+  angular_deploy:
     runs-on: ubuntu-latest
 
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
 
-steps:
-  - uses: actions/checkout@v2
-  - name: Use Node.js 16.x
-    uses: actions/setup-node@v1
-    with:
-       node-version: 20.x  
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-    
-  - name: npm install
-    run: npm ci
+      - name: Instalar dependencias
+        run: npm ci
 
+      - name: Ejecutar pruebas unitarias
+        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
-  - name: test
-    run: |
-        npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-  - name: build
-    run: |
-        npm run build --output-path=docs
+      - name: Compilar Angular
+        run: npm run build -- --output-path=docs
 
-  
-  - name: docker login
-    env:
-     DOCKER_USER: ${{secrets.DOCKER_USER}}
-     DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-    run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Verificar archivos compilados
+        run: |
+          test -f docs/browser/index.html
+          echo "Build de Angular encontrado correctamente."
 
-  
-  - name: Download and run the Docker base image
-    run: docker run -d --name http_base httpd
+      - name: Iniciar sesión en Docker Hub
+        if: github.event_name == 'push'
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login \
+            --username "$DOCKER_USER" \
+            --password-stdin
 
+      - name: Crear contenedor Apache
+        if: github.event_name == 'push'
+        run: docker run -d --name http_base httpd
 
-  - name: copy model to the Docker image
-    run: docker cp docs/. http_base:/usr/local/apache2/htdocs
+      - name: Copiar compilación de Angular a Apache
+        if: github.event_name == 'push'
+        run: docker cp docs/browser/. http_base:/usr/local/apache2/htdocs/
 
+      - name: Crear imagen personalizada
+        if: github.event_name == 'push'
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        run: |
+          docker commit \
+            --change "ENV MODEL_NAME http_base" \
+            http_base \
+            "$DOCKER_USER/mycv:${GITHUB_SHA}"
 
-  - name: Build the custom Docker image
-    run: docker commit --change "ENV MODEL_NAME http_base" http_base
-        ${{secrets.DOCKER_USER}}/mycv:${{ github.sha }}
-
-
-  - name: Docker Push
-    run: docker push ${{secrets.DOCKER_USER}}/mycv:${{ github.sha }}
+      - name: Subir imagen a Docker Hub
+        if: github.event_name == 'push'
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        run: docker push "$DOCKER_USER/mycv:${GITHUB_SHA}"
